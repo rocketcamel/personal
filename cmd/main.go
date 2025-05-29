@@ -15,7 +15,13 @@ func main() {
 	router := http.NewServeMux()
 	fs := http.FileServer(http.Dir("static"))
 	router.Handle("GET /static/", http.StripPrefix("/static/", fs))
-	router.HandleFunc("GET /", routing.IndexPage)
+	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			http.NotFound(w, r)
+			return
+		}
+		routing.IndexPage(w, r)
+	})
 
 	server := &http.Server{
 		Addr:    ":3000",
@@ -29,7 +35,7 @@ func main() {
 		log.Println("Starting server...")
 		err := server.ListenAndServe()
 		if err != http.ErrServerClosed {
-			log.Printf("Server exited with error: %s\n", err)
+			log.Fatalf("Server exited with error: %s\n", err)
 		}
 	}()
 

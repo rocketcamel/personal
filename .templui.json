@@ -1,0 +1,6 @@
+{
+  "componentsDir": "templates/components",
+  "utilsDir": "cmd/utils",
+  "moduleName": "personal"
+}
+
