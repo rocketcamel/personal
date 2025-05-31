@@ -11,9 +11,20 @@ templ Layout(children ...templ.Component) {
 			<link href="/static/css/output.css" rel="stylesheet"/>
 		</head>
 		<body>
-			for _, child := range children {
-				@child
-			}
+			@Header()
+			<main class="min-h-screen">
+				for _, child := range children {
+					@child
+				}
+			</main>
 		</body>
 	</html>
+}
+
+templ Header() {
+	<header>
+		<div class="bg-zinc-800 backdrop-blur-lg">
+			<div class="flex h-14 max-w-screen-lg px-4 items-center justify-between mx-auto"></div>
+		</div>
+	</header>
 }

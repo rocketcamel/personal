@@ -1,11 +1,12 @@
 package routing
 
 import (
-	"net/http"
 	"personal/templates"
 	"personal/templates/pages"
+
+	"github.com/a-h/templ"
 )
 
-func IndexPage(w http.ResponseWriter, r *http.Request) {
-	templates.Layout(pages.Index()).Render(r.Context(), w)
+func IndexPage() *templ.ComponentHandler {
+	return templ.Handler(templates.Layout(pages.Index()))
 }

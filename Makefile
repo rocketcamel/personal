@@ -15,4 +15,4 @@ tailwind:
 	tailwindcss -i static/css/input.css -o static/css/output.css --watch
 
 dev:
-	make -j3 templ server tailwind
+	make -j3 tailwind templ server

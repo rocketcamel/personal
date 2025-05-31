@@ -20,7 +20,7 @@ func main() {
 			http.NotFound(w, r)
 			return
 		}
-		routing.IndexPage(w, r)
+		routing.IndexPage().ServeHTTP(w, r)
 	})
 
 	server := &http.Server{
