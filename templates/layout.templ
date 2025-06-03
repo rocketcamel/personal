@@ -2,7 +2,7 @@ package templates
 
 templ Layout(children ...templ.Component) {
 	<!DOCTYPE html>
-	<html lang="en">
+	<html lang="en" x-data :class="$store.darkMode.on && 'dark'">
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -24,7 +24,11 @@ templ Layout(children ...templ.Component) {
 templ Header() {
 	<header>
 		<div class="bg-zinc-800 backdrop-blur-lg">
-			<div class="flex h-14 max-w-screen-lg px-4 items-center justify-between mx-auto"></div>
+			<div
+				x-data
+				@click="$store.darkMode.toggle()"
+				class="flex h-14 max-w-screen-lg px-4 items-center justify-between mx-auto"
+			></div>
 		</div>
 	</header>
 }

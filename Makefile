@@ -14,5 +14,8 @@ server:
 tailwind:
 	tailwindcss -i static/css/input.css -o static/css/output.css --watch
 
+esbuild:
+	bun bundle
+
 dev:
-	make -j3 tailwind templ server
+	make -j4 tailwind templ esbuild server

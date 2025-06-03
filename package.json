@@ -3,6 +3,7 @@
   "module": "src/index.ts",
   "devDependencies": {
     "@types/bun": "latest",
+    "chokidar": "^4.0.3",
     "esbuild": "^0.25.4",
     "tailwindcss": "^4.1.7"
   },
