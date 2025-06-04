@@ -10,7 +10,7 @@ templ Layout(children ...templ.Component) {
 			<script defer src="/static/js/index.js"></script>
 			<link href="/static/css/output.css" rel="stylesheet"/>
 		</head>
-		<body>
+		<body class="transition-colors">
 			@Header()
 			<main class="min-h-screen">
 				for _, child := range children {
