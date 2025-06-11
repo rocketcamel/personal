@@ -14,7 +14,10 @@ import (
 func main() {
 	router := http.NewServeMux()
 	fs := http.FileServer(http.Dir("static"))
-	router.Handle("GET /static/", http.StripPrefix("/static/", fs))
+	router.Handle("GET /static/", http.StripPrefix("/static/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "no-store")
+		fs.ServeHTTP(w, r)
+	})))
 	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)

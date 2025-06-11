@@ -1,5 +1,7 @@
 package templates
 
+import "personal/templates/components"
+
 templ Layout(children ...templ.Component) {
 	<!DOCTYPE html>
 	<html lang="en" x-data :class="$store.darkMode.on && 'dark'">
@@ -10,25 +12,11 @@ templ Layout(children ...templ.Component) {
 			<script defer src="/static/js/index.js"></script>
 			<link href="/static/css/output.css" rel="stylesheet"/>
 		</head>
-		<body class="transition-colors">
-			@Header()
-			<main class="min-h-screen">
-				for _, child := range children {
-					@child
-				}
-			</main>
+		<body class="transition-colors min-h-screen">
+			@components.Header()
+			for _, child := range children {
+				@child
+			}
 		</body>
 	</html>
-}
-
-templ Header() {
-	<header>
-		<div class="bg-zinc-800 backdrop-blur-lg">
-			<div
-				x-data
-				@click="$store.darkMode.toggle()"
-				class="flex h-14 max-w-screen-lg px-4 items-center justify-between mx-auto"
-			></div>
-		</div>
-	</header>
 }

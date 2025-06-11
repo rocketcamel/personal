@@ -1,5 +1,21 @@
 package components
 
+import "personal/templates/components/icon"
+
 templ Header() {
-	<div class="flex h-11 bg-zinc-800/80"></div>
+	<header>
+		<div class="bg-zinc-800 backdrop-blur-lg">
+			<div class="flex h-14 max-w-screen-lg items-center justify-between mx-auto">
+				<div></div>
+				<div @click="$store.darkMode.toggle()" class="p-2 rounded-lg hover:bg-muted-foreground transition-colors">
+					<template x-if="$store.darkMode.on">
+						@icon.Moon(icon.Props{Size: 24})
+					</template>
+					<template x-if="!$store.darkMode.on">
+						@icon.Sun(icon.Props{Size: 24, Color: "white"})
+					</template>
+				</div>
+			</div>
+		</div>
+	</header>
 }
