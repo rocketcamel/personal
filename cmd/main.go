@@ -1,17 +1,25 @@
 package main
 
 import (
+	// "bytes"
 	"context"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
+	// "personal/cmd/internal"
 	"personal/cmd/internal/routing"
 	"syscall"
 	"time"
+	// "github.com/yuin/goldmark"
+	// "github.com/yuin/goldmark/renderer/html"
 )
 
 func main() {
+	// md := goldmark.New(
+	// 	goldmark.WithRendererOptions(html.WithUnsafe()),
+	// 	goldmark.WithExtensions(&internal.MDComponent{}))
+
 	router := http.NewServeMux()
 	fs := http.FileServer(http.Dir("static"))
 	router.Handle("GET /static/", http.StripPrefix("/static/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
