@@ -7,10 +7,15 @@ import (
 	"personal/cmd/internal/nodes"
 	"personal/templates/components"
 
+	"github.com/a-h/templ"
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/util"
 )
+
+var components_map = map[string]templ.Component{
+	"Header": components.Header(),
+}
 
 type ComponentRenderer struct{}
 
@@ -21,9 +26,10 @@ func (r *ComponentRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegistere
 func (r *ComponentRenderer) Render(w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
 	n := node.(*nodes.ComponentNode)
 
-	if n.Name == "Header" {
+	component := components_map[n.Name]
+	if component != nil {
 		var buf bytes.Buffer
-		err := components.Header().Render(context.Background(), &buf)
+		err := component.Render(context.Background(), &buf)
 		if err != nil {
 			return ast.WalkStop, err
 		}

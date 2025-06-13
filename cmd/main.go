@@ -1,29 +1,43 @@
 package main
 
 import (
-	// "bytes"
+	"bytes"
 	"context"
+	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/renderer/html"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
-	// "personal/cmd/internal"
+	"personal/cmd/internal"
 	"personal/cmd/internal/routing"
 	"syscall"
 	"time"
-	// "github.com/yuin/goldmark"
-	// "github.com/yuin/goldmark/renderer/html"
 )
 
 func main() {
-	// md := goldmark.New(
-	// 	goldmark.WithRendererOptions(html.WithUnsafe()),
-	// 	goldmark.WithExtensions(&internal.MDComponent{}))
+	md := goldmark.New(
+		goldmark.WithRendererOptions(html.WithUnsafe()),
+		goldmark.WithExtensions(&internal.MDComponent{}))
+	source, err := os.ReadFile("cmd/tmp.md")
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	var buf bytes.Buffer
+	err = md.Convert(source, &buf)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	println(buf.String())
+	return
 
+	prod_env := os.Getenv("PRODUCTION_ENV")
 	router := http.NewServeMux()
 	fs := http.FileServer(http.Dir("static"))
 	router.Handle("GET /static/", http.StripPrefix("/static/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Cache-Control", "no-store")
+		if prod_env == "" {
+			w.Header().Set("Cache-Control", "no-store")
+		}
 		fs.ServeHTTP(w, r)
 	})))
 	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +58,7 @@ func main() {
 
 	go func() {
 		log.Println("Starting server...")
-		err := server.ListenAndServe()
+		err = server.ListenAndServe()
 		if err != http.ErrServerClosed {
 			log.Fatalf("Server exited with error: %s\n", err)
 		}
@@ -55,7 +69,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	err := server.Shutdown(ctx)
+	err = server.Shutdown(ctx)
 	if err != nil {
 		log.Println("Server exited with code 1.")
 	}

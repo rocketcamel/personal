@@ -1,7 +1,7 @@
 package parsers
 
 import (
-	"bytes"
+	"personal/cmd/internal/grammar"
 	"personal/cmd/internal/nodes"
 
 	"github.com/yuin/goldmark/ast"
@@ -18,12 +18,13 @@ func (p *ComponentParser) Trigger() []byte {
 func (p *ComponentParser) Open(parent ast.Node, block text.Reader, pc parser.Context) (ast.Node, parser.State) {
 	line, segment := block.PeekLine()
 
-	if bytes.HasPrefix(line, []byte("@components.Header")) {
-		block.Advance(segment.Len())
-		return &nodes.ComponentNode{Name: "Header"}, parser.NoChildren
+	output, err := grammar.ComponentParser.ParseBytes("", line)
+	if err != nil {
+		return nil, parser.NoChildren
 	}
 
-	return nil, parser.NoChildren
+	block.Advance(segment.Len())
+	return &nodes.ComponentNode{Name: output.Name}, parser.NoChildren
 }
 
 func (p *ComponentParser) Continue(node ast.Node, reader text.Reader, pc parser.Context) parser.State {
