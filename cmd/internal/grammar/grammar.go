@@ -8,14 +8,10 @@ import (
 type Component struct {
 	Pos lexer.Position
 
-	At         string      `parser:"@'@'"`
-	Namespace  string      `parser:"@Ident '.'"`
-	Name       string      `parser:"@Ident"`
-	Parameters *ParamsList `parser:"'(' @@? ')'"`
-}
-
-type ParamsList struct {
-	Params []*Param `parser:"@@ ( ',' @@ )*"`
+	At         string   `parser:"@'@'"`
+	Namespace  string   `parser:"@Ident '.'"`
+	Name       string   `parser:"@Ident"`
+	Parameters []*Param `parser:"'(' (@@ ( ',' @@)* )? ')'"`
 }
 
 type Param struct {

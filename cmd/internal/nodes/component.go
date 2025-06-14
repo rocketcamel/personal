@@ -7,6 +7,7 @@ import (
 type ComponentNode struct {
 	ast.BaseBlock
 	Name string
+	Data map[string]any
 }
 
 var ComponentNodeKind = ast.NewNodeKind("Component")

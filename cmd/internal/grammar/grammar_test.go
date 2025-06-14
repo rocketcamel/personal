@@ -1,13 +1,14 @@
 package grammar
 
 import (
+	"log"
 	"testing"
 )
 
 func TestGrammar(t *testing.T) {
-	output, err := ComponentParser.ParseString("f", "@components.Image(size: 24, width: 24)")
+	output, err := ComponentParser.ParseString("", "@components.Image(size: 24, width: 24)")
 	if err != nil {
-		println(err)
+		log.Fatalf("error: %v", err)
 	}
 	println(output)
 }

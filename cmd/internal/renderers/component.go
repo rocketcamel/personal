@@ -13,8 +13,8 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
-var components_map = map[string]templ.Component{
-	"Header": components.Header(),
+var components_map = map[string]func() templ.Component{
+	"Header": components.Header,
 }
 
 type ComponentRenderer struct{}
@@ -29,7 +29,7 @@ func (r *ComponentRenderer) Render(w util.BufWriter, source []byte, node ast.Nod
 	component := components_map[n.Name]
 	if component != nil {
 		var buf bytes.Buffer
-		err := component.Render(context.Background(), &buf)
+		err := component().Render(context.Background(), &buf)
 		if err != nil {
 			return ast.WalkStop, err
 		}
