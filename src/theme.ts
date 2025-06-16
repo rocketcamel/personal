@@ -7,11 +7,13 @@ type ThemeStore = {
 
 let theme = localStorage.getItem("theme");
 
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
 if (!theme) {
-  theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  theme = prefersDark ? "dark" : "light";
 }
+
+document.cookie = "theme=" + theme;
 
 Alpine.store("darkMode", {
   on: theme === "dark" ? true : false,
