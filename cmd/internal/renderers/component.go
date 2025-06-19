@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"personal/cmd/internal/nodes"
-	"personal/templates/components"
 
 	"github.com/a-h/templ"
 	"github.com/yuin/goldmark/ast"
@@ -13,9 +12,7 @@ import (
 	"github.com/yuin/goldmark/util"
 )
 
-var components_map = map[string]func() templ.Component{
-	"Header": components.Header,
-}
+var components_map = map[string]func() templ.Component{}
 
 type ComponentRenderer struct{}
 

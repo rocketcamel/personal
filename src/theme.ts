@@ -18,8 +18,13 @@ document.cookie = "theme=" + theme;
 Alpine.store("darkMode", {
   on: theme === "dark" ? true : false,
 
+  init() {
+    document.documentElement.classList.remove("dark");
+  },
+
   toggle() {
     this.on = !this.on;
     localStorage.setItem("theme", this.on ? "dark" : "light");
+    document.cookie = "theme=" + (this.on ? "dark" : "light");
   },
 } as ThemeStore);

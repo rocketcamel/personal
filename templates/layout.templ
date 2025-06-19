@@ -3,10 +3,16 @@ package templates
 import "personal/templates/components"
 
 templ Layout(children ...templ.Component) {
+	{{ var dark bool }}
+	if theme := ctx.Value("theme"); theme == "dark" {
+		{{ dark = true }}
+	}
 	<!DOCTYPE html>
-	<html lang="en" x-data :class="$store.darkMode.on && 'dark'">
+	<html lang="en" x-data :class="$store.darkMode.on && 'dark'" if dark {
+	class="dark"
+}>
 		<head>
-			<meta charset="UTF-8"/>
+			<meta charset=" UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<title>personal</title>
 			<script defer src="/static/js/index.js"></script>

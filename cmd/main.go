@@ -9,7 +9,9 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+
 	// "personal/cmd/internal"
+	"personal/cmd/internal/middleware"
 	"personal/cmd/internal/routing"
 	"syscall"
 	"time"
@@ -23,6 +25,7 @@ func main() {
 	prod_env := os.Getenv("PRODUCTION_ENV")
 	router := http.NewServeMux()
 	fs := http.FileServer(http.Dir("static"))
+	middleware_stack := middleware.CreateStack(middleware.ThemeMiddleware)
 	router.Handle("GET /static/", http.StripPrefix("/static/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if prod_env == "" {
 			w.Header().Set("Cache-Control", "no-store")
@@ -36,10 +39,11 @@ func main() {
 		}
 		routing.IndexPage().ServeHTTP(w, r)
 	})
+	router.Handle("GET /maiz", routing.MaizPage())
 
 	server := &http.Server{
 		Addr:    ":3000",
-		Handler: router,
+		Handler: middleware_stack(router),
 	}
 
 	quit := make(chan os.Signal, 1)

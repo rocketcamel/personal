@@ -7,18 +7,10 @@ type HeaderProps struct {
 }
 
 templ Header(props ...HeaderProps) {
-	{{ var p HeaderProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
 	<header>
 		<div class="bg-zinc-800 backdrop-blur-lg">
 			<div class="flex h-14 max-w-screen-lg items-center justify-between mx-auto">
-				<div>
-					if p.Title != "" {
-						{ p.Title }
-					}
-				</div>
+				<div></div>
 				<div @click="$store.darkMode.toggle()" class="p-2 rounded-lg hover:bg-muted-foreground transition-colors">
 					<template x-if="$store.darkMode.on">
 						@icon.Moon(icon.Props{Size: 24})
